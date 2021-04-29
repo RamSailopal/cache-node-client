@@ -17,6 +17,7 @@
   loop:
     - nodejs
     - gcc-c++
+    - yarn
   when: ansible_distribution is search("SUSE")
 - name: Make sure that nodejs and gcc-c++ are installed
   yum:
@@ -25,6 +26,7 @@
   loop:
     - nodejs
     - gcc-c++
+    - yarn
   when: ansible_distribution is not search("SUSE")
 - name: copy nodejs templates
   template:
@@ -35,11 +37,14 @@
      mode: "{{ item.mode }}"
   loop:
      - { src: "templates/mgdbx.js", dest: "/tmp/mgdbx.js", mode: "0744" }
-- name: Install mg-dbx via npm
-  npm:
+- name: Copy the package.json file
+  copy:
+    src: files/package.json
+    dest: /tmp/package.json
+- name: Install mg-dbx via yarn
+  yarn:
     name: mg-dbx
     path: /tmp
-
 - name: Verify that the install is working as expected
   command: "node mgdbx.js"
   args:
@@ -47,5 +52,8 @@
   register: outpt
   changed_when: outpt.stdout is not search("")
 - name: Print whether the install has gone through or not
-  debug: msg="npm package mg-dbx for Intersystem Cache connectivity, has been install correctly"
+  debug: msg="npm package mg-dbx for Intersystem Cache connectivity, has been installed correcty"
   when: outpt.stdout is search("The value of subscript 1 in global Sample.PersonS in the SAMPLES namespace is 1")
+- name: Print whether the install has gone through or not
+  debug: msg="npm package mg-dbx for Intersystem Cache connectivity, has NOT been installed correcty"
+  when: outpt.stdout is not search("The value of subscript 1 in global Sample.PersonS in the SAMPLES namespace is 1")
