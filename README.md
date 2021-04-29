@@ -28,6 +28,13 @@ Including an example of how to use your role (for instance, with variables passe
       hst: cacheserver 
       ...
 
+Further Information
+-------------------
+
+The npm package referencing in the role:
+
+https://www.npmjs.com/package/mg-dbx
+
 License
 -------
 
