@@ -1,0 +1,7 @@
+{
+  "name": "Cache",
+  "version": "1.0.0",
+  "description": "Allow nodejs connection to Intersystems database",
+  "main": "index.js",
+  "license": "MIT"
+}
