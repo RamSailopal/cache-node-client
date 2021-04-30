@@ -19,8 +19,7 @@
     - gcc-c++
     - yarn
     - make
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat
-Enterprise Linux'
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 - name: Make sure that python-devel and gcc are installed
   apt:
    name: "{{ item }}"
