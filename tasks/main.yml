@@ -10,7 +10,7 @@
   when: ansible_distribution is not search("SUSE")
   tags:
     - skip_ansible_lint # Need to install python-xml to get Ansible zypper/yum module to work - Chicken and egg!!
-- name: Make sure that nodejs and gcc-c++ are installed
+- name: Make sure that nodejs, yarn, gcc-c++ and make are installed
   zypper:
    name: "{{ item }}"
    state: "present"
@@ -18,8 +18,9 @@
     - nodejs
     - gcc-c++
     - yarn
+    - make
   when: ansible_distribution is search("SUSE")
-- name: Make sure that nodejs and gcc-c++ are installed
+- name: Make sure that nodejs, yarn, gcc-c++ and make are installed
   yum:
    name: "{{ item }}"
    state: "present"
@@ -27,6 +28,7 @@
     - nodejs
     - gcc-c++
     - yarn
+    - make
   when: ansible_distribution is not search("SUSE")
 - name: copy nodejs templates
   template:
@@ -52,8 +54,8 @@
   register: outpt
   changed_when: outpt.stdout is not search("")
 - name: Print whether the install has gone through or not
-  debug: msg="npm package mg-dbx for Intersystem Cache connectivity, has been installed correcty"
+  debug: msg="npm package mg-dbx for Intersystem Cache connectivity, has been installed correctly"
   when: outpt.stdout is search("The value of subscript 1 in global Sample.PersonS in the SAMPLES namespace is 1")
 - name: Print whether the install has gone through or not
-  debug: msg="npm package mg-dbx for Intersystem Cache connectivity, has NOT been installed correcty"
+  debug: msg="npm package mg-dbx for Intersystem Cache connectivity, has NOT been installed correctly"
   when: outpt.stdout is not search("The value of subscript 1 in global Sample.PersonS in the SAMPLES namespace is 1")
